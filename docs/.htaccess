@@ -1,0 +1,35 @@
+AddEncoding br .br
+AddEncoding gzip .gz
+
+<Files *.css.gz>
+	ForceType text/css
+</Files>
+<Files *.js.gz>
+	ForceType application/javascript
+</Files>
+<Files *.jpg.gz>
+	ForceType image/jpg
+</Files>
+<Files *.png.gz>
+	ForceType image/png
+</Files>
+<Files *.ttf.gz>
+	ForceType font/ttf
+</Files>
+<Files *.woff2.gz>
+	ForceType font/woff2
+</Files>
+
+RewriteEngine On
+
+RewriteCond %{HTTP:Accept-encoding} br
+RewriteCond %{HTTP_USER_AGENT} !Konqueror
+RewriteCond %{REQUEST_FILENAME}.br -f
+RewriteRule ^(.*\.(css|js|svg|jpg|png|ttf|woff2))$ $1.br [QSA,L]
+
+RewriteCond %{HTTP:Accept-encoding} gzip
+RewriteCond %{HTTP_USER_AGENT} !Konqueror
+RewriteCond %{REQUEST_FILENAME}.gz -f
+RewriteRule ^(.*\.(css|js|svg|jpg|png|ttf|woff2))$ $1.gz [QSA,L]
+
+Options -Indexes
