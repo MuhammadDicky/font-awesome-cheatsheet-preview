@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= require('img/favicon-32x32.png') %>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<%= require('img/favicon-96x96.png') %>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= require('img/favicon-16x16.png') %>">
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="/">
+                <i class="fab fa-font-awesome text-white"></i> <%= htmlWebpackPlugin.options.title %>
+            </a>
+
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <div class="mr-auto">
+                </div>
+
+                <ul class="navbar-nav my-2 my-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"><i class="fas fa-exclamation-circle"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+
+        <div class="containers m-5 mb-0">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-filter"></i> Filter Icon
+                        </div>
+                        <div class="card-body">
+                            <h6 id="total-icons">Total Icons:</h6>
+
+                            <div class="dropdown-divider"></div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="all-icon" checked>
+                                <label class="custom-control-label" for="all-icon">All</label>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input icon-type" id="solid-icon" data-type="solid">
+                                <label class="custom-control-label" for="solid-icon">Solid</label>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input icon-type" id="regular-icon" data-type="regular">
+                                <label class="custom-control-label" for="regular-icon">Regular</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input icon-type" id="brand-icon" data-type="brands">
+                                <label class="custom-control-label" for="brand-icon">Brand</label>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+                            <% htmlWebpackPlugin.options.iconsCategory.forEach(function(property, indexCat) { %>
+                                <% if (indexCat + 1 === htmlWebpackPlugin.options.iconsCategory.length) { %>
+                                <div class="custom-control custom-checkbox">
+                                <% } else { %>
+                                <div class="custom-control custom-checkbox mb-2">
+                                <% } %>
+                                    <input 
+                                        type="checkbox"
+                                        class="custom-control-input icon-category"
+                                        id="<%= property.name %>-icon"
+                                        data-category="<%= property.name %>">
+                                    <label class="custom-control-label" for="<%= property.name %>-icon"><%= property.label %></label>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="row mt-md-0 mb-md-0 mt-sm-4 mb-sm-4">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search icons..." id="search-icon-box">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="btn-group btn-block" role="group" aria-label="Layout View">
+                                <button type="button" class="btn btn-secondary active" data-toggle="tooltip" data-placement="top" title="Grid Layout">
+                                    <i class="fas fa-th fa-xs"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="List Layout">
+                                    <i class="fas fa-th-list fa-xs"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="show-cheatsheet" data-toggle="tooltip" data-placement="top" title="Show Cheat Sheet">
+                                    <i class="fas fa-exclamation-circle fa-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-3">
+                                <div class="card-header" id="total-filtered-icons">Found</div>
+                                <div class="card-body">
+                                    <ul class="list ma0 pa0 flex flex-row flex-wrap justify-start items-start" id="icons-list">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="bck"></a>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modal-preview-icon">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Icon Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="centered-content icon-preview">
+                                <i class="fab fa-font-awesome"></i>
+                            </div>
+                            <input type="range" class="custom-range mt-3" min="20" max="250" step="1" id="icon-preview-range">
+                            <!-- <input type="color" class="form-control" id="icon-preview-color"> -->
+                            <input id="demo-input-color" type="text" class="form-control" value="rgb(255, 128, 0)" />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl>
+                                        <dt>Name</dt>
+                                        <dd>-</dd>
+        
+                                        <dt>Class</dt>
+                                        <dd>-</dd>
+
+                                        <dt>Category</dt>
+                                        <dd>-</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl>
+                                        <dt>Unicode</dt>
+                                        <dd>-</dd>
+
+                                        <dt>Type</dt>
+                                        <dd>-</dd>
+
+                                        <dt>Change Log</dt>
+                                        <dd>-</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

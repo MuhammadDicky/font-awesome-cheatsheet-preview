@@ -1,0 +1,62 @@
+.bck {
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	background: $primary;
+	color: #fff;
+	visibility: hidden;
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	text-align:center;
+    transition-property: all;
+    border-radius: $border-radius;
+
+    &.bck-on {
+        visibility: visible;
+
+        &:hover {
+            color: #fff;
+        }
+
+        &.fade{
+            opacity: 1;
+        }
+    
+        &.right-to-left{
+            right: 1rem;
+        }
+    
+        &.left-to-right {
+            left: 1rem;
+        }
+    
+        &.top-to-bottom {
+            top:1rem;
+        }
+    
+        &.bottom-to-top {
+            bottom: 1rem;
+        }
+    }
+}
+
+.fade{
+    opacity: 0;
+}
+
+.right-to-left {
+    right : -50px;
+}
+
+.left-to-right {
+    left: -50px;
+}
+
+.top-to-bottom {
+    top: -50px;
+}
+
+.bottom-to-top {
+    bottom: -50px;
+}
