@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -11,7 +12,7 @@ const outputPath = commonWebpackConfig.output.path;
 const packageData = require('./package.json');
 const fontAwesomePackageData = require('@fortawesome/fontawesome-free/package.json');
 
-module.exports = merge(commonWebpackConfig, {
+const publicOutput = merge(commonWebpackConfig, {
     mode: 'production',
     module: {
         rules: [
@@ -79,7 +80,7 @@ module.exports = merge(commonWebpackConfig, {
                     const banner = [
                         `${title}\n`,
                         `Version: ${version}\n`,
-                        // `Github: ${repository.url}\n`,
+                        `Github: ${repository.url}\n`,
                         `License: ${license}\n`,
                         `Description: ${description}\n`,
                         `Copyright 2019-${year} ${author.name}\n\n`,
@@ -98,3 +99,26 @@ module.exports = merge(commonWebpackConfig, {
         hints: false
     }
 });
+const outputResolvePath = path.resolve(__dirname, 'docs');
+const docsOutput = merge(publicOutput, {
+    output: {
+        path: outputResolvePath
+    },
+    plugins: [
+        new FileManager({
+            onEnd: {
+                copy: [
+                    {
+                        source: `${outputPath}/*.{html,br,gz}`,
+                        destination: outputResolvePath
+                    }
+                ]
+            }
+        })
+    ]
+});
+
+module.exports = [
+    publicOutput,
+    docsOutput
+];
