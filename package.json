@@ -29,7 +29,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-colorpicker": "^3.2.0",
     "fuse.js": "^3.4.6",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jquery-ui-dist": "^1.12.1",
     "jquery.nicescroll": "^3.7.6",
     "placeholder-loading": "^0.2.4",
